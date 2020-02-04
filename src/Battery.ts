@@ -1,4 +1,5 @@
 import { ref, onMounted, onUnmounted, readonly } from 'vue';
+import { isServer } from './utils';
 
 interface BatteryManager extends EventTarget {
   charging: boolean;
@@ -14,33 +15,43 @@ type NavigatorWithBattery = Navigator & {
 const events = ['chargingchange', 'chargingtimechange', 'dischargingtimechange', 'levelchange'];
 
 export function useBattery() {
-  const isCharging = ref(false);
+  const charging = ref(false);
   const chargingTime = ref(0);
   const dischargingTime = ref(0);
   const level = ref(1);
+  const unsupported = ref(true);
 
   function updateBatteryInfo(this: BatteryManager) {
-    isCharging.value = this.charging;
+    charging.value = this.charging;
     chargingTime.value = this.chargingTime || 0;
     dischargingTime.value = this.dischargingTime || 0;
     level.value = this.level;
   }
 
-  onMounted(() => {
-    if (!('getBattery' in navigator)) {
-      return;
-    }
-
+  function listen() {
     (navigator as NavigatorWithBattery).getBattery().then(battery => {
       updateBatteryInfo.call(battery);
       events.forEach(evt => {
         battery.addEventListener(evt, updateBatteryInfo);
       });
     });
-  });
+  }
+
+  function checkSupport() {
+    unsupported.value = !(navigator && 'getBattery' in navigator);
+  }
+
+  function init() {
+    checkSupport();
+    if (unsupported.value) {
+      return;
+    }
+
+    listen();
+  }
 
   onUnmounted(() => {
-    if (!('getBattery' in navigator)) {
+    if (unsupported.value) {
       return;
     }
 
@@ -51,10 +62,17 @@ export function useBattery() {
     });
   });
 
+  if (!isServer) {
+    init();
+  } else {
+    onMounted(init);
+  }
+
   return {
-    isCharging: readonly(isCharging),
+    charging: readonly(charging),
     chargingTime: readonly(chargingTime),
     dischargingTime: readonly(dischargingTime),
-    level: readonly(level)
+    level: readonly(level),
+    unsupported: readonly(unsupported)
   };
 }

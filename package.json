@@ -30,6 +30,7 @@
   "devDependencies": {
     "@commitlint/cli": "^8.3.5",
     "@types/jest": "^25.1.1",
+    "flush-promises": "^1.0.2",
     "husky": "^4.2.1",
     "tsdx": "^0.12.3",
     "tslib": "^1.10.0",
