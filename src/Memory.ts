@@ -1,12 +1,12 @@
-import { ref, onMounted, readonly } from 'vue';
+import { ref, onMounted, readonly, Ref } from 'vue';
 import { isServer } from './utils';
 
 export function useMemoryStatus() {
   const deviceMemory = ref(0);
   const unsupported = ref(false);
-  const totalJSHeapSize = ref(undefined);
-  const usedJSHeapSize = ref(undefined);
-  const jsHeapSizeLimit = ref(undefined);
+  const totalJSHeapSize: Ref<undefined | number> = ref(undefined);
+  const usedJSHeapSize: Ref<undefined | number> = ref(undefined);
+  const jsHeapSizeLimit: Ref<undefined | number> = ref(undefined);
 
   function resolveMemory() {
     if (isServer) {
