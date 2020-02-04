@@ -1,27 +1,44 @@
-# TSDX Bootstrap
+# vue-adaptive-utils
 
-This project was bootstrapped with [TSDX](https://github.com/jaredpalmer/tsdx).
+> Deliver empathetic experiences to your users by adapting to their capabilities
 
-## Local Development
+Inspired by [react-adaptive-hooks](https://github.com/GoogleChromeLabs/react-adaptive-hooks), and a continuation of my work in [vue-use-web](https://github.com/logaretm/vue-use-web).
 
-Below is a list of commands you will probably find useful.
+<p align="center">
 
-### `npm start` or `yarn start`
+[![codecov](https://codecov.io/gh/logaretm/vue-adaptive-utils/branch/master/graph/badge.svg)](https://codecov.io/gh/logaretm/vue-adaptive-utils)
+[![Build Status](https://travis-ci.org/logaretm/vue-adaptive-utils.svg?branch=master)](https://travis-ci.org/logaretm/vue-adaptive-utils)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/087bd788687c4ccab6650756ce56fa05)](https://www.codacy.com/app/logaretm/vue-adaptive-utils)
+[![CDNJS](https://img.shields.io/cdnjs/v/vue-adaptive-utils.svg)](https://cdnjs.com/libraries/vue-adaptive-utils/)
+[![npm](https://img.shields.io/npm/dm/vue-adaptive-utils.svg)](https://npm-stat.com/charts.html?package=vue-adaptive-utils)
+[![npm](https://img.shields.io/npm/v/vue-adaptive-utils.svg)](https://www.npmjs.com/package/vue-adaptive-utils)
+[![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/logaretm/vue-adaptive-utils.svg)](http://isitmaintained.com/project/logaretm/vue-adaptive-utils 'Average time to resolve an issue')
+[![Percentage of issues still open](http://isitmaintained.com/badge/open/logaretm/vue-adaptive-utils.svg)](http://isitmaintained.com/project/logaretm/vue-adaptive-utils 'Percentage of issues still open')
 
-Runs the project in development/watch mode. Your project will be rebuilt upon changes. TSDX has a special logger for you convenience. Error messages are pretty printed and formatted for compatibility VS Code's Problems tab.
+</p>
+<br>
 
-<img src="https://user-images.githubusercontent.com/4060187/52168303-574d3a00-26f6-11e9-9f3b-71dbec9ebfcb.gif" width="600" />
+This is a collection of Vue 3.0 composition API functions and utilties to allow your apps to adapt your user's:
 
-Your library will be rebuilt if you make edits.
+- Network conditions.
+- Device Memory.
+- CPU Cores.
 
-### `npm run build` or `yarn build`
+## Install
 
-Bundles the package to the `dist` folder.
-The package is optimized and bundled with Rollup into multiple formats (CommonJS, UMD, and ES Module).
+```sh
+yarn add vue-adaptive-utils
 
-<img src="https://user-images.githubusercontent.com/4060187/52168322-a98e5b00-26f6-11e9-8cf6-222d716b75ef.gif" width="600" />
+# or
 
-### `npm test` or `yarn test`
+npm i vue-adaptive-utils --save
+```
 
-Runs the test watcher (Jest) in an interactive mode.
-By default, runs tests related to files changed since the last commit.
+## Usage
+
+Import the composition function that you will use:
+
+// TODO
+
+```js
+```
