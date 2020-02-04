@@ -2,7 +2,7 @@ import { ref, onMounted, readonly } from 'vue';
 import { isServer } from './utils';
 
 export function useHardwareConcurrency() {
-  const logicalProcessors = ref(0);
+  const concurrency = ref(0);
   const unsupported = ref(false);
 
   function resolveConcurrency() {
@@ -11,8 +11,13 @@ export function useHardwareConcurrency() {
       return;
     }
 
-    if ('hardwareConcurrency' in window.navigator) {
-      logicalProcessors.value = window.navigator.hardwareConcurrency;
+    if (
+      window.navigator &&
+      'hardwareConcurrency' in window.navigator &&
+      typeof window.navigator.hardwareConcurrency !== 'undefined'
+    ) {
+      concurrency.value = window.navigator.hardwareConcurrency;
+      return;
     }
 
     unsupported.value = true;
@@ -21,7 +26,7 @@ export function useHardwareConcurrency() {
   resolveConcurrency();
 
   return {
-    logicalProcessors: readonly(logicalProcessors),
+    concurrency: readonly(concurrency),
     unsupported: readonly(unsupported)
   };
 }
