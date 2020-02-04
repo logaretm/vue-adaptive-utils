@@ -2,8 +2,6 @@
 
 > Deliver empathetic experiences to your users by adapting to their capabilities
 
-Inspired by [react-adaptive-hooks](https://github.com/GoogleChromeLabs/react-adaptive-hooks), and a continuation of my work in [vue-use-web](https://github.com/logaretm/vue-use-web).
-
 <p align="center">
 
 [![codecov](https://codecov.io/gh/logaretm/vue-adaptive-utils/branch/master/graph/badge.svg)](https://codecov.io/gh/logaretm/vue-adaptive-utils)
@@ -17,12 +15,26 @@ Inspired by [react-adaptive-hooks](https://github.com/GoogleChromeLabs/react-ada
 </p>
 <br>
 
+## What is this
+
+Inspired by [react-adaptive-hooks](https://github.com/GoogleChromeLabs/react-adaptive-hooks), and a continuation of my work in [vue-use-web](https://github.com/logaretm/vue-use-web).
+
 This is a collection of Vue 3.0 composition API functions and utilties to allow your apps to adapt your user's:
 
 - Network conditions.
 - Battery Status.
 - CPU Cores.
 - Device Memory.
+
+I have iterated on this idea multiple times, once in my article: [Resource-Adaptive Vue Apps](https://logaretm.com/blog/2019-07-19-resource-adaptive-vue-apps/) which discussed this idea prior to the introduction of the composition API, I have enhanced the idea even more in my work in [vue-use-web](https://github.com/logaretm/vue-use-web).
+
+With the Vue 3.0 composition API introduction, this is a perfect way to consume such functionalities into your components. This library is aimed to Vue 3.0 and already working with the Alpha releases.
+
+## Why
+
+This **is not** "yet another web APIs wrappers for Vue's upcoming composition API", this project aims to focus on only the APIs that allow you to tailor your website experience based on various factors like network status, device memory and more. It allows you to build "adaptive" vue applications that are aware of your users devices limitation and to be more empathetic towards them.
+
+This library aims to bring value with those composition functions, not only mirroring the native web APIs that's underneath.
 
 ## Install
 
@@ -97,6 +109,13 @@ import { useHardwareConcurrency } from 'vue-adaptive-utils';
 
 const { deviceMemory, totalJSHeapSize, usedJSHeapSize, jsHeapSizeLimit, unsupported } = useMemoryStatus();
 ```
+
+## Browser Support
+
+- Network Information API - effectiveType is available in Chrome 61+, Opera 48+, Edge 76+, Chrome for Android 76+, Firefox for Android 68+
+- Hardware Concurrency API is available in Chrome 37+, Safari 10.1+, Firefox 48+, Opera 24+, Edge 15+, Chrome for Android 76+, Safari on iOS 10.3+, Firefox for Android 68+, Opera for Android 46+
+- Performance memory API is a non-standard and only available in Chrome 7+, Opera, Chrome for Android 18+, Opera for Android
+- Device Memory API is available in Chrome 63+, Opera 50+, Chrome for Android 76+, Opera for Android 46+
 
 ## License
 
