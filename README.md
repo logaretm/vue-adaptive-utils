@@ -20,8 +20,9 @@ Inspired by [react-adaptive-hooks](https://github.com/GoogleChromeLabs/react-ada
 This is a collection of Vue 3.0 composition API functions and utilties to allow your apps to adapt your user's:
 
 - Network conditions.
-- Device Memory.
+- Battery Status.
 - CPU Cores.
+- Device Memory.
 
 ## Install
 
@@ -35,9 +36,68 @@ npm i vue-adaptive-utils --save
 
 ## Usage
 
-Import the composition function that you will use:
-
-// TODO
+Import the composition function(s) that you will use:
 
 ```js
+import { useNetworkStatus } from 'vue-adaptive-utils';
+import { useBattery } from 'vue-adaptive-utils';
+import { useHardwareConcurrency } from 'vue-adaptive-utils';
+import { useMemoryStatus } from 'vue-adaptive-utils';
 ```
+
+Each of the composition functions return an `unsupported` value to indicate if the API is supported or not.
+
+> ⚠ All the values exposed are **read only** and cannot be mutated.
+
+### Network Status
+
+This is a **compounded API**, meaning it collects various information from multiple APIs, them being the `Connection API` and `online/offline` events.
+
+**Partial Compatibility**: The `unsupported` flag here refers to the availability of the `Connection API`, the `isOnline` and `offlineAt` properties should be available in all browsers.
+
+```js
+import { useNetworkStatus } from 'vue-adaptive-utils';
+
+const {
+  isOnline,
+  saveData,
+  offlineAt,
+  downlink,
+  downlinkMax,
+  effectiveConnectionType,
+  networkType,
+  unsupported
+} = useNetworkStatus();
+```
+
+### Battery Status
+
+This is an experimental API and is only available on Chrome at the moment.
+
+```js
+import { useBattery } from 'vue-adaptive-utils';
+
+const { charging, chargingTime, dischargingTime, level, unsupported } = useBattery();
+```
+
+### Hardware Concurrency (CPU Cores)
+
+```js
+import { useHardwareConcurrency } from 'vue-adaptive-utils';
+
+const { concurrency, unsupported } = useHardwareConcurrency();
+```
+
+### Memory Status
+
+This is a **compounded API**, meaning it collects various information from multiple APIs, mainly the `navigator.deviceMemory` and `navigator.performance`.
+
+```js
+import { useHardwareConcurrency } from 'vue-adaptive-utils';
+
+const { deviceMemory, totalJSHeapSize, usedJSHeapSize, jsHeapSizeLimit, unsupported } = useMemoryStatus();
+```
+
+## License
+
+Licensed under the MIT license.
