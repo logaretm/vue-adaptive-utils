@@ -13,7 +13,9 @@
     "lint": "tsdx lint",
     "prepare": "tsdx build"
   },
-  "peerDependencies": {},
+  "peerDependencies": {
+    "vue": "^3.0.0-alpha.4"
+  },
   "husky": {
     "hooks": {
       "pre-commit": "tsdx lint",
