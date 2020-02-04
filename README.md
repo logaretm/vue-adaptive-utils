@@ -112,10 +112,10 @@ const { deviceMemory, totalJSHeapSize, usedJSHeapSize, jsHeapSizeLimit, unsuppor
 
 ## Browser Support
 
-- Network Information API - effectiveType is available in Chrome 61+, Opera 48+, Edge 76+, Chrome for Android 76+, Firefox for Android 68+
-- Hardware Concurrency API is available in Chrome 37+, Safari 10.1+, Firefox 48+, Opera 24+, Edge 15+, Chrome for Android 76+, Safari on iOS 10.3+, Firefox for Android 68+, Opera for Android 46+
-- Performance memory API is a non-standard and only available in Chrome 7+, Opera, Chrome for Android 18+, Opera for Android
-- Device Memory API is available in Chrome 63+, Opera 50+, Chrome for Android 76+, Opera for Android 46+
+- [Battery API](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/battery) is only available on Chrome.
+- [Connection API](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/connection) is available on Chrome 61+ and Firefox.
+- [Device Memory](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/deviceMemory) is available on Chrome 63+.
+- Performance memory API is a non-standard and only available in Chrome 7+, Opera, Chrome for Android 18+, Opera for Android.
 
 ## License
 
