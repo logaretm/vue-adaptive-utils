@@ -1,49 +1,53 @@
 import { onMounted, onUnmounted, ref, Ref, readonly } from 'vue';
+import { isServer } from './utils';
 
 type NetworkType = 'bluetooth' | 'cellular' | 'ethernet' | 'none' | 'wifi' | 'wimax' | 'other' | 'unknown';
 type NetworkEffectiveType = 'slow-2g' | '2g' | '3g' | '4g' | undefined;
 
-export function useNetwork() {
+export function useNetworkStatus() {
   const isOnline = ref(true);
   const saveData = ref(false);
   const offlineAt: Ref<number | undefined> = ref(undefined);
   const downlink: Ref<number | undefined> = ref(undefined);
   const downlinkMax: Ref<number | undefined> = ref(undefined);
-  const effectiveType: Ref<NetworkEffectiveType> = ref(undefined);
-  const type: Ref<NetworkType> = ref('unknown');
+  const effectiveConnectionType: Ref<NetworkEffectiveType> = ref(undefined);
+  const networkType: Ref<NetworkType> = ref('unknown');
+  const unsupported = ref(false);
 
   function updateNetworkInformation() {
     isOnline.value = window.navigator.onLine;
     offlineAt.value = isOnline.value ? undefined : Date.now();
     // skip for non supported browsers.
-    if (!('connection' in window.navigator)) {
+    const connection =
+      (navigator as any).connection || (navigator as any).mozConnection || (navigator as any).webkitConnection;
+    if (!connection) {
+      unsupported.value = true;
       return;
     }
 
     downlink.value = (window.navigator as any).connection.downlink;
     downlinkMax.value = (window.navigator as any).connection.downlinkMax;
-    effectiveType.value = (window.navigator as any).connection.effectiveType;
+    effectiveConnectionType.value = (window.navigator as any).connection.effectiveType;
     saveData.value = (window.navigator as any).connection.saveData;
-    type.value = (window.navigator as any).connection.type;
+    networkType.value = (window.navigator as any).connection.type;
   }
 
-  const onOffline = () => {
+  function onOffline(e: Event) {
     isOnline.value = false;
-    offlineAt.value = Date.now();
-  };
+    offlineAt.value = e.timeStamp;
+  }
 
-  const onOnline = () => {
+  function onOnline() {
     isOnline.value = true;
-  };
+  }
 
-  onMounted(() => {
-    updateNetworkInformation();
+  function listen() {
     window.addEventListener('offline', onOffline);
     window.addEventListener('online', onOnline);
     if ('connection' in window.navigator) {
       (window.navigator as any).connection.addEventListener('change', updateNetworkInformation, false);
     }
-  });
+  }
 
   onUnmounted(() => {
     window.removeEventListener('offline', onOffline);
@@ -53,13 +57,24 @@ export function useNetwork() {
     }
   });
 
+  if (!isServer) {
+    updateNetworkInformation();
+    listen();
+  } else {
+    onMounted(() => {
+      updateNetworkInformation();
+      listen();
+    });
+  }
+
   return {
     isOnline: readonly(isOnline),
     saveData: readonly(saveData),
     offlineAt: readonly(offlineAt),
     downlink: readonly(downlink),
     downlinkMax: readonly(downlinkMax),
-    effectiveType: readonly(effectiveType),
-    type: readonly(type)
+    effectiveConnectionType: readonly(effectiveConnectionType),
+    networkType: readonly(networkType),
+    unsupported: readonly(unsupported)
   };
 }
