@@ -3,10 +3,10 @@ import { isServer } from './utils';
 
 export function useMemoryStatus() {
   const deviceMemory = ref(0);
-  const unsupported = ref(false);
   const totalJSHeapSize: Ref<undefined | number> = ref(undefined);
   const usedJSHeapSize: Ref<undefined | number> = ref(undefined);
   const jsHeapSizeLimit: Ref<undefined | number> = ref(undefined);
+  const isUnsupported = ref(false);
 
   function resolveMemory() {
     if (isServer) {
@@ -15,7 +15,7 @@ export function useMemoryStatus() {
     }
 
     if (!('deviceMemory' in window.navigator)) {
-      unsupported.value = true;
+      isUnsupported.value = true;
       return;
     }
 
@@ -36,6 +36,6 @@ export function useMemoryStatus() {
     totalJSHeapSize: readonly(totalJSHeapSize),
     usedJSHeapSize: readonly(usedJSHeapSize),
     jsHeapSizeLimit: readonly(jsHeapSizeLimit),
-    unsupported: readonly(unsupported)
+    isUnsupported: readonly(isUnsupported)
   };
 }

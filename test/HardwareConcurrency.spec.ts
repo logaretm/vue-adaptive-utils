@@ -18,14 +18,14 @@ describe('useHardwareConcurrency', () => {
 
     const vm = mountHook(() => useHardwareConcurrency());
 
-    expect(vm.unsupported).toBe(true);
+    expect(vm.isUnsupported).toBe(true);
   });
 
   test(`should return window.navigator.hardwareConcurrency`, () => {
     const vm = mountHook(() => useHardwareConcurrency());
 
     expect(vm.concurrency).toBe(window.navigator.hardwareConcurrency);
-    expect(vm.unsupported).toBe(false);
+    expect(vm.isUnsupported).toBe(false);
   });
 
   test('should return 4 for device of hardwareConcurrency = 4', () => {
@@ -37,7 +37,7 @@ describe('useHardwareConcurrency', () => {
     const vm = mountHook(() => useHardwareConcurrency());
 
     expect(vm.concurrency).toEqual(4);
-    expect(vm.unsupported).toBe(false);
+    expect(vm.isUnsupported).toBe(false);
   });
 
   test('should return 2 for device of hardwareConcurrency = 2', () => {
@@ -49,6 +49,6 @@ describe('useHardwareConcurrency', () => {
     const vm = mountHook(() => useHardwareConcurrency());
 
     expect(vm.concurrency).toEqual(2);
-    expect(vm.unsupported).toBe(false);
+    expect(vm.isUnsupported).toBe(false);
   });
 });

@@ -47,7 +47,7 @@ describe('use Battery', () => {
     });
     const vm = mountHook(() => useBattery());
 
-    expect(vm.unsupported).toBe(true);
+    expect(vm.isUnsupported).toBe(true);
   });
 
   test(`should return "false" for supported case`, async () => {
@@ -59,7 +59,7 @@ describe('use Battery', () => {
     });
     const vm = mountHook(() => useBattery());
 
-    expect(vm.unsupported).toBe(false);
+    expect(vm.isUnsupported).toBe(false);
   });
 
   test(`should report the battery status`, async () => {
@@ -72,7 +72,7 @@ describe('use Battery', () => {
     const vm = mountHook(() => useBattery());
     await flushP();
 
-    expect(vm.charging).toBe(true);
+    expect(vm.isCharging).toBe(true);
     expect(vm.chargingTime).toBe(140);
     expect(vm.dischargingTime).toBe(40);
     expect(vm.level).toBe(1);
@@ -89,7 +89,7 @@ describe('use Battery', () => {
     await flushP();
     batteryMock.charging = false;
     map.chargingchange();
-    expect(vm.charging).toBe(false);
+    expect(vm.isCharging).toBe(false);
   });
 
   test(`should update the chargingtime when it changes`, async () => {

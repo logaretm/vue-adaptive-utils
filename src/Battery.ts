@@ -15,14 +15,14 @@ type NavigatorWithBattery = Navigator & {
 const events = ['chargingchange', 'chargingtimechange', 'dischargingtimechange', 'levelchange'];
 
 export function useBattery() {
-  const charging = ref(false);
+  const isCharging = ref(false);
   const chargingTime = ref(0);
   const dischargingTime = ref(0);
   const level = ref(1);
-  const unsupported = ref(true);
+  const isUnsupported = ref(true);
 
   function updateBatteryInfo(this: BatteryManager) {
-    charging.value = this.charging;
+    isCharging.value = this.charging;
     chargingTime.value = this.chargingTime || 0;
     dischargingTime.value = this.dischargingTime || 0;
     level.value = this.level;
@@ -38,12 +38,12 @@ export function useBattery() {
   }
 
   function checkSupport() {
-    unsupported.value = !(navigator && 'getBattery' in navigator);
+    isUnsupported.value = !(navigator && 'getBattery' in navigator);
   }
 
   function init() {
     checkSupport();
-    if (unsupported.value) {
+    if (isUnsupported.value) {
       return;
     }
 
@@ -51,7 +51,7 @@ export function useBattery() {
   }
 
   onUnmounted(() => {
-    if (unsupported.value) {
+    if (isUnsupported.value) {
       return;
     }
 
@@ -69,10 +69,10 @@ export function useBattery() {
   }
 
   return {
-    charging: readonly(charging),
+    isCharging: readonly(isCharging),
     chargingTime: readonly(chargingTime),
     dischargingTime: readonly(dischargingTime),
     level: readonly(level),
-    unsupported: readonly(unsupported)
+    isUnsupported: readonly(isUnsupported)
   };
 }

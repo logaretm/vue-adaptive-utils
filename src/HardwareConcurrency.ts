@@ -3,7 +3,7 @@ import { isServer } from './utils';
 
 export function useHardwareConcurrency() {
   const concurrency = ref(0);
-  const unsupported = ref(false);
+  const isUnsupported = ref(false);
 
   function resolveConcurrency() {
     if (isServer) {
@@ -20,13 +20,13 @@ export function useHardwareConcurrency() {
       return;
     }
 
-    unsupported.value = true;
+    isUnsupported.value = true;
   }
 
   resolveConcurrency();
 
   return {
     concurrency: readonly(concurrency),
-    unsupported: readonly(unsupported)
+    isUnsupported: readonly(isUnsupported)
   };
 }

@@ -2,7 +2,7 @@ import { mountHook } from './helpers';
 import { useMemoryStatus } from '../src';
 
 const getMemoryStatus = (vm: any) => ({
-  unsupported: false,
+  isUnsupported: vm.isUnsupported,
   deviceMemory: vm.deviceMemory,
   totalJSHeapSize: vm.totalJSHeapSize,
   usedJSHeapSize: vm.usedJSHeapSize,
@@ -13,7 +13,7 @@ describe('useMemoryStatus', () => {
   test(`should return "true" for unsupported case`, () => {
     const vm = mountHook(() => useMemoryStatus());
 
-    expect(vm.unsupported).toBe(true);
+    expect(vm.isUnsupported).toBe(true);
   });
 
   test('should return initialMemoryStatus for unsupported case', () => {
@@ -22,7 +22,7 @@ describe('useMemoryStatus', () => {
 
     const vm = mountHook(() => useMemoryStatus());
 
-    expect(vm.unsupported).toBe(false);
+    expect(vm.isUnsupported).toBe(false);
     expect(vm.deviceMemory).toEqual(deviceMemory);
   });
 
@@ -45,7 +45,7 @@ describe('useMemoryStatus', () => {
 
     expect(getMemoryStatus(vm)).toMatchObject({
       ...mockMemoryStatus,
-      unsupported: false
+      isUnsupported: false
     });
   });
 
@@ -60,7 +60,7 @@ describe('useMemoryStatus', () => {
     const vm = mountHook(() => useMemoryStatus());
 
     expect(vm.deviceMemory).toEqual(mockMemoryStatus.deviceMemory);
-    expect(vm.unsupported).toEqual(false);
+    expect(vm.isUnsupported).toEqual(false);
   });
 
   test('should not return initialMemoryStatus for supported case', () => {
@@ -87,7 +87,7 @@ describe('useMemoryStatus', () => {
 
     expect(getMemoryStatus(vm)).toMatchObject({
       ...mockMemoryStatus,
-      unsupported: false
+      isUnsupported: false
     });
   });
 });
