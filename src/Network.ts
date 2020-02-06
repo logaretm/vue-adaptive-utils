@@ -12,7 +12,7 @@ export function useNetworkStatus() {
   const downlinkMax: Ref<number | undefined> = ref(undefined);
   const effectiveConnectionType: Ref<NetworkEffectiveType> = ref(undefined);
   const networkType: Ref<NetworkType> = ref('unknown');
-  const isUnsupported = ref(false);
+  const isSupported = ref(false);
 
   function updateNetworkInformation() {
     isOnline.value = window.navigator.onLine;
@@ -21,10 +21,10 @@ export function useNetworkStatus() {
     const connection =
       (navigator as any).connection || (navigator as any).mozConnection || (navigator as any).webkitConnection;
     if (!connection) {
-      isUnsupported.value = true;
       return;
     }
 
+    isSupported.value = true;
     downlink.value = (window.navigator as any).connection.downlink;
     downlinkMax.value = (window.navigator as any).connection.downlinkMax;
     effectiveConnectionType.value = (window.navigator as any).connection.effectiveType;
@@ -75,6 +75,6 @@ export function useNetworkStatus() {
     downlinkMax: readonly(downlinkMax),
     effectiveConnectionType: readonly(effectiveConnectionType),
     networkType: readonly(networkType),
-    isUnsupported: readonly(isUnsupported)
+    isSupported: readonly(isSupported)
   };
 }

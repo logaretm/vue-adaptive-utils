@@ -39,7 +39,7 @@ describe('use Battery', () => {
     Object.values(fakeEventTarget).forEach(listener => listener.mockClear());
   });
 
-  test(`should return "true" for unsupported case`, async () => {
+  test(`should return "false" for unsupported case`, async () => {
     Object.defineProperty(window, 'navigator', {
       value: undefined,
       configurable: true,
@@ -47,10 +47,10 @@ describe('use Battery', () => {
     });
     const vm = mountHook(() => useBattery());
 
-    expect(vm.isUnsupported).toBe(true);
+    expect(vm.isSupported).toBe(false);
   });
 
-  test(`should return "false" for supported case`, async () => {
+  test(`should return "true" for supported case`, async () => {
     Object.defineProperty(window.navigator, 'getBattery', {
       value: () =>
         Promise.resolve(mockBatteryManager({ charging: true, chargingTime: 1, dischargingTime: 0, level: 1 })),
@@ -59,7 +59,7 @@ describe('use Battery', () => {
     });
     const vm = mountHook(() => useBattery());
 
-    expect(vm.isUnsupported).toBe(false);
+    expect(vm.isSupported).toBe(true);
   });
 
   test(`should report the battery status`, async () => {

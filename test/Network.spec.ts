@@ -28,10 +28,10 @@ describe('useNetworkStatus', () => {
     expect(method.mock.calls[0][1].constructor).toEqual(Function);
   };
 
-  test(`should return "true" for unsupported case`, () => {
+  test(`should return "false" for unsupported case`, () => {
     const vm = mountHook(() => useNetworkStatus());
 
-    expect(vm.isUnsupported).toBe(true);
+    expect(vm.isSupported).toBe(false);
   });
 
   test('should return 4g of effectiveConnectionType', () => {
@@ -43,7 +43,7 @@ describe('useNetworkStatus', () => {
     const vm = mountHook(() => useNetworkStatus());
 
     testEctStatusEventListenerMethod(fakeEventTarget.addEventListener);
-    expect(vm.isUnsupported).toBe(false);
+    expect(vm.isSupported).toBe(true);
     expect(vm.effectiveConnectionType).toEqual('4g');
   });
 

@@ -19,7 +19,7 @@ export function useBattery() {
   const chargingTime = ref(0);
   const dischargingTime = ref(0);
   const level = ref(1);
-  const isUnsupported = ref(true);
+  const isSupported = ref(false);
 
   function updateBatteryInfo(this: BatteryManager) {
     isCharging.value = this.charging;
@@ -38,12 +38,12 @@ export function useBattery() {
   }
 
   function checkSupport() {
-    isUnsupported.value = !(navigator && 'getBattery' in navigator);
+    isSupported.value = !!(navigator && 'getBattery' in navigator);
   }
 
   function init() {
     checkSupport();
-    if (isUnsupported.value) {
+    if (!isSupported.value) {
       return;
     }
 
@@ -51,7 +51,7 @@ export function useBattery() {
   }
 
   onUnmounted(() => {
-    if (isUnsupported.value) {
+    if (!isSupported.value) {
       return;
     }
 
@@ -73,6 +73,6 @@ export function useBattery() {
     chargingTime: readonly(chargingTime),
     dischargingTime: readonly(dischargingTime),
     level: readonly(level),
-    isUnsupported: readonly(isUnsupported)
+    isSupported: readonly(isSupported)
   };
 }

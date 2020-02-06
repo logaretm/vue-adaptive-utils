@@ -9,7 +9,7 @@ describe('useHardwareConcurrency', () => {
     if (!window.navigator) window.navigator = navigator;
   });
 
-  test(`should return "true" for unsupported case`, async () => {
+  test(`should return "false" for unsupported case`, async () => {
     Object.defineProperty(window, 'navigator', {
       value: undefined,
       configurable: true,
@@ -18,14 +18,14 @@ describe('useHardwareConcurrency', () => {
 
     const vm = mountHook(() => useHardwareConcurrency());
 
-    expect(vm.isUnsupported).toBe(true);
+    expect(vm.isSupported).toBe(false);
   });
 
-  test(`should return window.navigator.hardwareConcurrency`, () => {
+  test(`should return "true" for supported case`, () => {
     const vm = mountHook(() => useHardwareConcurrency());
 
     expect(vm.concurrency).toBe(window.navigator.hardwareConcurrency);
-    expect(vm.isUnsupported).toBe(false);
+    expect(vm.isSupported).toBe(true);
   });
 
   test('should return 4 for device of hardwareConcurrency = 4', () => {
@@ -37,7 +37,7 @@ describe('useHardwareConcurrency', () => {
     const vm = mountHook(() => useHardwareConcurrency());
 
     expect(vm.concurrency).toEqual(4);
-    expect(vm.isUnsupported).toBe(false);
+    expect(vm.isSupported).toBe(true);
   });
 
   test('should return 2 for device of hardwareConcurrency = 2', () => {
@@ -49,6 +49,6 @@ describe('useHardwareConcurrency', () => {
     const vm = mountHook(() => useHardwareConcurrency());
 
     expect(vm.concurrency).toEqual(2);
-    expect(vm.isUnsupported).toBe(false);
+    expect(vm.isSupported).toBe(true);
   });
 });
