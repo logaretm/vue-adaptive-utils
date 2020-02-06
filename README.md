@@ -57,7 +57,7 @@ import { useHardwareConcurrency } from 'vue-adaptive-utils';
 import { useMemoryStatus } from 'vue-adaptive-utils';
 ```
 
-Each of the composition functions return an `unsupported` value to indicate if the API is supported or not.
+All of the composition functions return an `isSupported` boolean ref to indicate if the API is supported or not.
 
 > ⚠ All the values exposed are **read only** and cannot be mutated.
 
@@ -65,7 +65,7 @@ Each of the composition functions return an `unsupported` value to indicate if t
 
 This is a **compounded API**, meaning it collects various information from multiple APIs, them being the `Connection API` and `online/offline` events.
 
-**Partial Compatibility**: The `unsupported` flag here refers to the availability of the `Connection API`, the `isOnline` and `offlineAt` properties should be available in all browsers.
+**Partial Compatibility**: The `isSupported` flag here refers to the availability of the `Connection API`, the `isOnline` and `offlineAt` properties should be available in all browsers.
 
 ```js
 import { useNetworkStatus } from 'vue-adaptive-utils';
@@ -78,7 +78,7 @@ const {
   downlinkMax,
   effectiveConnectionType,
   networkType,
-  unsupported
+  isSupported
 } = useNetworkStatus();
 ```
 
@@ -89,7 +89,7 @@ This is an experimental API and is only available on Chrome at the moment.
 ```js
 import { useBattery } from 'vue-adaptive-utils';
 
-const { charging, chargingTime, dischargingTime, level, unsupported } = useBattery();
+const { charging, chargingTime, dischargingTime, level, isSupported } = useBattery();
 ```
 
 ### Hardware Concurrency (CPU Cores)
@@ -97,7 +97,7 @@ const { charging, chargingTime, dischargingTime, level, unsupported } = useBatte
 ```js
 import { useHardwareConcurrency } from 'vue-adaptive-utils';
 
-const { concurrency, unsupported } = useHardwareConcurrency();
+const { concurrency, isSupported } = useHardwareConcurrency();
 ```
 
 ### Memory Status
@@ -107,7 +107,7 @@ This is a **compounded API**, meaning it collects various information from multi
 ```js
 import { useHardwareConcurrency } from 'vue-adaptive-utils';
 
-const { deviceMemory, totalJSHeapSize, usedJSHeapSize, jsHeapSizeLimit, unsupported } = useMemoryStatus();
+const { deviceMemory, totalJSHeapSize, usedJSHeapSize, jsHeapSizeLimit, isSupported } = useMemoryStatus();
 ```
 
 ## Browser Support
