@@ -16,6 +16,15 @@ describe('useMemoryStatus', () => {
     expect(vm.isSupported).toBe(false);
   });
 
+  test(`should return "false" for unsupported case but report initialMemoryStatus`, () => {
+    const vm = mountHook(() => useMemoryStatus({ deviceMemory: 3, usedJSHeapSize: 400 }));
+
+    expect(vm.isSupported).toBe(false);
+    expect(vm.deviceMemory).toBe(3);
+    expect(vm.usedJSHeapSize).toBe(400);
+    expect(vm.jsHeapSizeLimit).toBe(undefined);
+  });
+
   test('should return device memory for isSupported case', () => {
     const deviceMemory = 4;
     (global as any).navigator.deviceMemory = deviceMemory;
