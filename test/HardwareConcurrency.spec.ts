@@ -21,6 +21,19 @@ describe('useHardwareConcurrency', () => {
     expect(vm.isSupported).toBe(false);
   });
 
+  test(`should return "false" for unsupported case but report the initial value`, async () => {
+    Object.defineProperty(window, 'navigator', {
+      value: undefined,
+      configurable: true,
+      writable: true
+    });
+
+    const vm = mountHook(() => useHardwareConcurrency(3));
+    expect(vm.concurrency).toBe(3);
+
+    expect(vm.isSupported).toBe(false);
+  });
+
   test(`should return "true" for supported case`, () => {
     const vm = mountHook(() => useHardwareConcurrency());
 
