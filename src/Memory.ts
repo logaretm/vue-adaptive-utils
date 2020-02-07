@@ -1,11 +1,18 @@
 import { ref, onMounted, readonly, Ref } from 'vue';
 import { isServer } from './utils';
 
-export function useMemoryStatus() {
-  const deviceMemory = ref(0);
-  const totalJSHeapSize: Ref<undefined | number> = ref(undefined);
-  const usedJSHeapSize: Ref<undefined | number> = ref(undefined);
-  const jsHeapSizeLimit: Ref<undefined | number> = ref(undefined);
+interface UseMemoryStatusOptions {
+  deviceMemory?: number;
+  totalJSHeapSize?: number;
+  usedJSHeapSize?: number;
+  jsHeapSizeLimit?: number;
+}
+
+export function useMemoryStatus(opts?: UseMemoryStatusOptions) {
+  const deviceMemory = ref(opts?.deviceMemory ?? undefined);
+  const totalJSHeapSize: Ref<undefined | number> = ref(opts?.totalJSHeapSize);
+  const usedJSHeapSize: Ref<undefined | number> = ref(opts?.usedJSHeapSize);
+  const jsHeapSizeLimit: Ref<undefined | number> = ref(opts?.jsHeapSizeLimit);
   const isSupported = ref(false);
 
   function resolveMemory() {

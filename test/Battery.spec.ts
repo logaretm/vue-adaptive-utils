@@ -50,6 +50,19 @@ describe('use Battery', () => {
     expect(vm.isSupported).toBe(false);
   });
 
+  test(`should return "false" for unsupported case but report initial values`, async () => {
+    Object.defineProperty(window, 'navigator', {
+      value: undefined,
+      configurable: true,
+      writable: true
+    });
+    const vm = mountHook(() => useBattery({ isCharging: true, chargingTime: 540 }));
+
+    expect(vm.isSupported).toBe(false);
+    expect(vm.isCharging).toBe(true);
+    expect(vm.chargingTime).toBe(540);
+  });
+
   test(`should return "true" for supported case`, async () => {
     Object.defineProperty(window.navigator, 'getBattery', {
       value: () =>

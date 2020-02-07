@@ -1,8 +1,8 @@
 import { ref, onMounted, readonly } from 'vue';
 import { isServer } from './utils';
 
-export function useHardwareConcurrency() {
-  const concurrency = ref(0);
+export function useHardwareConcurrency(initialConcurrency?: number) {
+  const concurrency = ref(initialConcurrency ?? undefined);
   const isSupported = ref(false);
 
   function resolveConcurrency() {

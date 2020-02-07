@@ -4,14 +4,23 @@ import { isServer } from './utils';
 type NetworkType = 'bluetooth' | 'cellular' | 'ethernet' | 'none' | 'wifi' | 'wimax' | 'other' | 'unknown';
 type NetworkEffectiveType = 'slow-2g' | '2g' | '3g' | '4g' | undefined;
 
-export function useNetworkStatus() {
-  const isOnline = ref(true);
-  const saveData = ref(false);
+interface UseNetworkStatusOptions {
+  isOnline?: boolean;
+  saveData?: boolean;
+  downlink?: number;
+  downlinkMax?: number;
+  effectiveConnectionType?: NetworkEffectiveType;
+  networkType?: NetworkType;
+}
+
+export function useNetworkStatus(opts?: UseNetworkStatusOptions) {
+  const isOnline = ref(opts?.isOnline ?? true);
+  const saveData = ref(opts?.saveData ?? false);
   const offlineAt: Ref<number | undefined> = ref(undefined);
-  const downlink: Ref<number | undefined> = ref(undefined);
-  const downlinkMax: Ref<number | undefined> = ref(undefined);
-  const effectiveConnectionType: Ref<NetworkEffectiveType> = ref(undefined);
-  const networkType: Ref<NetworkType> = ref('unknown');
+  const downlink: Ref<number | undefined> = ref(opts?.downlink ?? undefined);
+  const downlinkMax: Ref<number | undefined> = ref(opts?.downlinkMax ?? undefined);
+  const effectiveConnectionType: Ref<NetworkEffectiveType> = ref(opts?.effectiveConnectionType ?? undefined);
+  const networkType: Ref<NetworkType> = ref(opts?.networkType ?? 'unknown');
   const isSupported = ref(false);
 
   function updateNetworkInformation() {

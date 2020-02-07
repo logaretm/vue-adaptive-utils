@@ -34,6 +34,19 @@ describe('useNetworkStatus', () => {
     expect(vm.isSupported).toBe(false);
   });
 
+  test(`should return "false" for unsupported case but report initial values`, () => {
+    const vm = mountHook(() =>
+      useNetworkStatus({
+        saveData: true,
+        effectiveConnectionType: '3g'
+      })
+    );
+
+    expect(vm.isSupported).toBe(false);
+    expect(vm.saveData).toBe(true);
+    expect(vm.effectiveConnectionType).toBe('3g');
+  });
+
   test('should return 4g of effectiveConnectionType', () => {
     (global as any).navigator.connection = {
       ...fakeEventTarget,
