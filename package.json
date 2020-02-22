@@ -15,7 +15,7 @@
     "prepare": "tsdx build"
   },
   "peerDependencies": {
-    "vue": "^3.0.0-alpha.4"
+    "vue": "^3.0.0-alpha.6"
   },
   "husky": {
     "hooks": {
