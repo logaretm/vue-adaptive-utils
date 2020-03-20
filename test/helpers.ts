@@ -6,7 +6,7 @@ export function mount(component: Record<string, any>) {
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   app.config.warnHandler = () => {};
   app.config.errorHandler = err => {
-    if (err.message === 'data is not defined') {
+    if ((err as Error).message === 'data is not defined') {
       return;
     }
 
