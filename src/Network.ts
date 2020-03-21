@@ -25,7 +25,7 @@ export function useNetworkStatus(opts?: UseNetworkStatusOptions) {
 
   function updateNetworkInformation() {
     isOnline.value = window.navigator.onLine;
-    offlineAt.value = isOnline.value ? undefined : Date.now();
+    offlineAt.value = isOnline.value ? offlineAt.value : Date.now();
     // skip for non supported browsers.
     const connection =
       (navigator as any).connection || (navigator as any).mozConnection || (navigator as any).webkitConnection;
