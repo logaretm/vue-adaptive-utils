@@ -1,5 +1,5 @@
-import { onMounted, onUnmounted, ref, Ref, readonly } from 'vue';
-import { isServer } from './utils';
+import { onUnmounted, ref, Ref, readonly } from 'vue';
+import { runWithoutSSR } from './utils';
 
 type NetworkType = 'bluetooth' | 'cellular' | 'ethernet' | 'none' | 'wifi' | 'wimax' | 'other' | 'unknown';
 type NetworkEffectiveType = 'slow-2g' | '2g' | '3g' | '4g' | undefined;
@@ -66,15 +66,10 @@ export function useNetworkStatus(opts?: UseNetworkStatusOptions) {
     }
   });
 
-  if (!isServer) {
+  runWithoutSSR(() => {
     updateNetworkInformation();
     listen();
-  } else {
-    onMounted(() => {
-      updateNetworkInformation();
-      listen();
-    });
-  }
+  });
 
   return {
     isOnline: readonly(isOnline),

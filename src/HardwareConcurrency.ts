@@ -1,16 +1,11 @@
-import { ref, onMounted, readonly } from 'vue';
-import { isServer } from './utils';
+import { ref, readonly } from 'vue';
+import { runWithoutSSR } from './utils';
 
 export function useHardwareConcurrency(initialConcurrency?: number) {
   const concurrency = ref(initialConcurrency ?? undefined);
   const isSupported = ref(false);
 
-  function resolveConcurrency() {
-    if (isServer) {
-      onMounted(resolveConcurrency);
-      return;
-    }
-
+  runWithoutSSR(function resolveConcurrency() {
     const supported =
       window.navigator &&
       'hardwareConcurrency' in window.navigator &&
@@ -21,9 +16,7 @@ export function useHardwareConcurrency(initialConcurrency?: number) {
 
     concurrency.value = window.navigator.hardwareConcurrency;
     isSupported.value = supported;
-  }
-
-  resolveConcurrency();
+  });
 
   return {
     concurrency: readonly(concurrency),

@@ -1,5 +1,5 @@
-import { ref, onMounted, onUnmounted, readonly } from 'vue';
-import { isServer } from './utils';
+import { ref, onUnmounted, readonly } from 'vue';
+import { runWithoutSSR } from './utils';
 
 interface BatteryManager extends EventTarget {
   charging: boolean;
@@ -48,15 +48,6 @@ export function useBattery(opts?: UseBatteryOptions) {
     isSupported.value = !!(navigator && 'getBattery' in navigator);
   }
 
-  function init() {
-    checkSupport();
-    if (!isSupported.value) {
-      return;
-    }
-
-    listen();
-  }
-
   onUnmounted(() => {
     if (!isSupported.value) {
       return;
@@ -69,11 +60,14 @@ export function useBattery(opts?: UseBatteryOptions) {
     });
   });
 
-  if (!isServer) {
-    init();
-  } else {
-    onMounted(init);
-  }
+  runWithoutSSR(() => {
+    checkSupport();
+    if (!isSupported.value) {
+      return;
+    }
+
+    listen();
+  });
 
   return {
     isCharging: readonly(isCharging),

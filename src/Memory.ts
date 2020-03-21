@@ -1,5 +1,5 @@
-import { ref, onMounted, readonly, Ref } from 'vue';
-import { isServer } from './utils';
+import { ref, readonly, Ref } from 'vue';
+import { runWithoutSSR } from './utils';
 
 interface UseMemoryStatusOptions {
   deviceMemory?: number;
@@ -15,12 +15,7 @@ export function useMemoryStatus(opts?: UseMemoryStatusOptions) {
   const jsHeapSizeLimit: Ref<undefined | number> = ref(opts?.jsHeapSizeLimit);
   const isSupported = ref(false);
 
-  function resolveMemory() {
-    if (isServer) {
-      onMounted(resolveMemory);
-      return;
-    }
-
+  runWithoutSSR(function resolveMemory() {
     if (!('deviceMemory' in window.navigator)) {
       return;
     }
@@ -34,9 +29,7 @@ export function useMemoryStatus(opts?: UseMemoryStatusOptions) {
       usedJSHeapSize.value = memory?.usedJSHeapSize;
       jsHeapSizeLimit.value = memory?.jsHeapSizeLimit;
     }
-  }
-
-  resolveMemory();
+  });
 
   return {
     deviceMemory: readonly(deviceMemory),
