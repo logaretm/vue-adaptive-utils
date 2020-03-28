@@ -1,8 +1,5 @@
 const sidebars = {
-  guide: [
-    '',
-    'client'
-  ]
+  guide: ['', 'battery', 'network', 'memory', 'hardware-concurrency']
 };
 
 function genSidebarConfig(...names) {
@@ -30,6 +27,6 @@ module.exports = {
     sidebar: {
       '/guide/': genSidebarConfig('Guide')
     },
-    displayAllHeaders: true // Default: false
+    displayAllHeaders: false // Default: false
   }
 };

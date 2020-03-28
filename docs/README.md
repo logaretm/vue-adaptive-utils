@@ -4,7 +4,7 @@ lang: en-US
 home: true
 actionText: Get Started →
 actionLink: ./guide/
-footer: MIT Licensed | Copyright &copy; 2020-present Abdelrahman Awad
+footer: MIT Licensed | Copyright 2020-present Abdelrahman Awad
 description: Deliver empathetic experiences to your users by adapting to their capabilities
 meta:
   - name: og:title
