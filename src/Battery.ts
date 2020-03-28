@@ -21,11 +21,11 @@ interface UseBatteryOptions {
   level?: number;
 }
 
-export function useBattery(opts?: UseBatteryOptions) {
+export function useBatteryStatus(opts?: UseBatteryOptions) {
   const isCharging = ref(opts?.isCharging ?? false);
   const chargingTime = ref(opts?.chargingTime ?? 0);
   const dischargingTime = ref(opts?.dischargingTime ?? 0);
-  const level = ref(opts?.level ?? 0);
+  const level = ref(opts?.level ?? 1);
   const isSupported = ref(false);
 
   function updateBatteryInfo(this: BatteryManager) {

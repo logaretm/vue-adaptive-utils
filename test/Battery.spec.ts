@@ -1,5 +1,5 @@
 import { mountHook } from './helpers';
-import { useBattery } from '../src';
+import { useBatteryStatus } from '../src';
 import flushP from 'flush-promises';
 
 describe('use Battery', () => {
@@ -45,7 +45,7 @@ describe('use Battery', () => {
       configurable: true,
       writable: true
     });
-    const vm = mountHook(() => useBattery());
+    const vm = mountHook(() => useBatteryStatus());
 
     expect(vm.isSupported).toBe(false);
   });
@@ -56,7 +56,7 @@ describe('use Battery', () => {
       configurable: true,
       writable: true
     });
-    const vm = mountHook(() => useBattery({ isCharging: true, chargingTime: 540 }));
+    const vm = mountHook(() => useBatteryStatus({ isCharging: true, chargingTime: 540 }));
 
     expect(vm.isSupported).toBe(false);
     expect(vm.isCharging).toBe(true);
@@ -70,7 +70,7 @@ describe('use Battery', () => {
       configurable: true,
       writable: true
     });
-    const vm = mountHook(() => useBattery());
+    const vm = mountHook(() => useBatteryStatus());
 
     expect(vm.isSupported).toBe(true);
   });
@@ -82,7 +82,7 @@ describe('use Battery', () => {
       configurable: true,
       writable: true
     });
-    const vm = mountHook(() => useBattery());
+    const vm = mountHook(() => useBatteryStatus());
     await flushP();
 
     expect(vm.isCharging).toBe(true);
@@ -98,7 +98,7 @@ describe('use Battery', () => {
       configurable: true,
       writable: true
     });
-    const vm = mountHook(() => useBattery());
+    const vm = mountHook(() => useBatteryStatus());
     await flushP();
     batteryMock.charging = false;
     map.chargingchange();
@@ -113,7 +113,7 @@ describe('use Battery', () => {
       writable: true
     });
 
-    const vm = mountHook(() => useBattery());
+    const vm = mountHook(() => useBatteryStatus());
     await flushP();
     batteryMock.chargingTime = 50;
     map.chargingtimechange();
@@ -128,7 +128,7 @@ describe('use Battery', () => {
       writable: true
     });
 
-    const vm = mountHook(() => useBattery());
+    const vm = mountHook(() => useBatteryStatus());
     await flushP();
     batteryMock.dischargingTime = 10;
     map.dischargingtimechange();
@@ -143,7 +143,7 @@ describe('use Battery', () => {
       writable: true
     });
 
-    const vm = mountHook(() => useBattery());
+    const vm = mountHook(() => useBatteryStatus());
     await flushP();
     batteryMock.level = 0.4;
     map.levelchange();
