@@ -117,6 +117,10 @@ const { deviceMemory, totalJSHeapSize, usedJSHeapSize, jsHeapSizeLimit, isSuppor
 - [Device Memory](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/deviceMemory) is available on Chrome 63+.
 - Performance memory API is a non-standard and only available in Chrome 7+, Opera, Chrome for Android 18+, Opera for Android.
 
-## License
+## 📚 Documentation
+
+You can find the [docs here](https://logaretm.github.io/vue-adaptive-utils/).
+
+## 📜 License
 
 Licensed under the MIT license.
