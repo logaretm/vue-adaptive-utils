@@ -6,7 +6,7 @@ The [Network Information](https://developer.mozilla.org/en-US/docs/Web/API/Navig
 
 ## Usage
 
-You can use the `useNetworkStatus` composition function to gain access to the network information:
+You can use the `useNetworkStatus` function to gain access to the network information:
 
 ```js
 import { useNetworkStatus } from 'vue-adaptive-utils';
