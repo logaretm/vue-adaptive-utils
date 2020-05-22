@@ -1,5 +1,5 @@
 import { mountHook } from './helpers';
-import { useMemoryStatus } from '../src';
+import { useMemoryStatus, useMemoryStatusBudget } from '../src';
 
 const getMemoryStatus = (vm: any) => ({
   isSupported: vm.isSupported,
@@ -98,5 +98,37 @@ describe('useMemoryStatus', () => {
       ...mockMemoryStatus,
       isSupported: true
     });
+  });
+});
+
+describe('useMemoryStatus budget', () => {
+  test(`should return "true" when there are memory more than requested`, () => {
+    const deviceMemory = 2;
+    (global as any).navigator.deviceMemory = deviceMemory;
+
+    const vm = mountHook(() => {
+      const hasEnoughMemory = useMemoryStatusBudget({ deviceMemory: 2 });
+
+      return {
+        hasEnoughMemory
+      };
+    });
+
+    expect(vm.hasEnoughMemory).toBe(true);
+  });
+
+  test(`should return "false" when there are memory less than requested`, () => {
+    const deviceMemory = 1;
+    (global as any).navigator.deviceMemory = deviceMemory;
+
+    const vm = mountHook(() => {
+      const hasEnoughMemory = useMemoryStatusBudget({ deviceMemory: 2 });
+
+      return {
+        hasEnoughMemory
+      };
+    });
+
+    expect(vm.hasEnoughMemory).toBe(false);
   });
 });

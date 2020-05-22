@@ -1,4 +1,4 @@
-import { ref, readonly, Ref } from 'vue';
+import { ref, readonly, Ref, computed } from 'vue';
 import { runWithoutSSR } from './utils';
 
 interface UseMemoryStatusOptions {
@@ -38,4 +38,17 @@ export function useMemoryStatus(opts?: UseMemoryStatusOptions) {
     jsHeapSizeLimit: readonly(jsHeapSizeLimit),
     isSupported: readonly(isSupported)
   };
+}
+
+export function useMemoryStatusBudget(opts: Pick<UseMemoryStatusOptions, 'deviceMemory'>) {
+  const status = useMemoryStatus(opts);
+  const isWithinBudget = computed(() => {
+    if (opts.deviceMemory && opts.deviceMemory > (status.deviceMemory.value as number)) {
+      return false;
+    }
+
+    return true;
+  });
+
+  return isWithinBudget;
 }
