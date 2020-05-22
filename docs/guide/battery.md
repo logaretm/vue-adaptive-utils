@@ -29,3 +29,22 @@ The **Ref Type** column represents the underlying exposed type of the refs. **Al
 | dischargingTime | `number`  | `0`            | The time the device has left to be drained and about to shutdown.                    |
 | level           | `number`  | `1`            | A number between `0` and `1` to represent the current charge level.                  |
 | isSupported     | `boolean` | `false`        | If the API is supported on this device.                                              |
+
+## Budget API
+
+You can use the `useBatteryStatusBudget` function to construct boolean conditions to make it easier to set budgets for your components.
+
+You would need to pass the "minimum" ideal operating conditions for your code, for the battery API it only makes sense for `isCharging` or `level`, as other attributes have little value when setting operating conditions for your components.
+
+The `useBatteryStatusBudget` is a function that returns a single computed properly that reflects whether the device's current battery status meets or exceeds the supplied conditions.
+
+```js
+import { useBatteryStatusBudget } from 'vue-adaptive-utils';
+
+export default {
+  setup() {
+    // true if the device is currently charging and if it has at least 50% charge level.
+    const isOperable = useBatteryStatusBudget({ isCharging: true, level: 0.5 });
+  }
+};
+```

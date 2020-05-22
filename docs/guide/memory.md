@@ -31,3 +31,22 @@ The **Ref Type** column represents the underlying exposed type of the refs. **Al
 :::tip
 The `totalJSHeapSize`, `usedJSHeapSize` and `jsHeapSizeLimit` are only available in chrome and chromium based browsers.
 :::
+
+## Budget API
+
+You can use the `useMemoryStatusBudget` function to construct boolean conditions to make it easier to set memory budgets for your components.
+
+You would need to pass the "minimum" ideal operating conditions for your code, for the memory status API there is only one facet which is the `deviceMemory`.
+
+The `useMemoryStatusBudget` is a function that returns a single computed properly that reflects whether the current memory on the device meets or exceeds the supplied one.
+
+```js
+import { useMemoryStatusBudget } from 'vue-adaptive-utils';
+
+export default {
+  setup() {
+    // Device must at least have 4 Gigs of RAM
+    const isOperable = useMemoryStatusBudget({ deviceMemory: 4 });
+  }
+};
+```

@@ -34,3 +34,26 @@ The **Ref Type** column represents the underlying exposed type of the refs. **Al
 | effectiveConnectionType | `'slow-2g' | '2g' | '3g' | '4g' | undefined`                                              | `undefined`    | Effective type of the connection.                                     |
 | networkType             | `'bluetooth' | 'cellular' | 'ethernet' | 'none' | 'wifi' | 'wimax' | 'other' | 'unknown'` | `undefined`    | type of connection a device is using to communicate with the network. |
 | isSupported             | `boolean`                                                                                 | `false`        | If the API is supported on this device.                               |
+
+## Budget API
+
+You can use the `useNetworkStatusBudget` function to construct boolean conditions to make it easier to set memory budgets for your components.
+
+You would need to pass the "minimum" ideal operating conditions for your code, for the network status API there are multiple facets, you can set either the `isOnline`, `saveData`, `effectiveConnectionType` or all of them if you want to make tight conditions for running your code.
+
+The `useNetworkStatusBudget` is a function that returns a single computed properly that reflects whether the device network connection meets or exceeds the supplied one.
+
+```js
+import { useNetworkStatusBudget } from 'vue-adaptive-utils';
+
+export default {
+  setup() {
+    // Device must be connected, and turned off its data saver feature and it should be connected over 4g or similar connection
+    const isOperable = useNetworkStatusBudget({
+      isOnline: true,
+      saveData: false,
+      effectiveConnectionType: '4g'
+    });
+  }
+};
+```
