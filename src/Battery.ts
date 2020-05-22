@@ -1,4 +1,4 @@
-import { ref, onUnmounted, readonly } from 'vue';
+import { ref, onUnmounted, readonly, computed } from 'vue';
 import { runWithoutSSR } from './utils';
 
 interface BatteryManager extends EventTarget {
@@ -76,4 +76,21 @@ export function useBatteryStatus(opts?: UseBatteryOptions) {
     level: readonly(level),
     isSupported: readonly(isSupported)
   };
+}
+
+export function useBatteryStatusBudget(opts: Pick<UseBatteryOptions, 'isCharging' | 'level'>) {
+  const status = useBatteryStatus(opts);
+  const isWithinBudget = computed(() => {
+    if (opts.isCharging && !status.isCharging.value) {
+      return false;
+    }
+
+    if (opts.level && status.level.value < opts.level) {
+      return false;
+    }
+
+    return true;
+  });
+
+  return isWithinBudget;
 }
