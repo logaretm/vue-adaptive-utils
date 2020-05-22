@@ -1,4 +1,4 @@
-import { createApp, compile } from 'vue';
+import { createApp } from 'vue';
 
 export function mount(component: Record<string, any>) {
   const app = createApp(component);
@@ -15,8 +15,6 @@ export function mount(component: Record<string, any>) {
   };
 
   document.body.innerHTML = `<div id="app"></div>`;
-  component.render = compile(component.template);
-  component.template = undefined;
 
   return app.mount('#app');
 }
