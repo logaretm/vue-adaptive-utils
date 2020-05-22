@@ -1,5 +1,5 @@
 import { mountHook } from './helpers';
-import { useHardwareConcurrency } from '../src';
+import { useHardwareConcurrency, useHardwareConcurrencyBudget } from '../src';
 
 describe('useHardwareConcurrency', () => {
   const navigator = window.navigator;
@@ -63,5 +63,48 @@ describe('useHardwareConcurrency', () => {
 
     expect(vm.concurrency).toEqual(2);
     expect(vm.isSupported).toBe(true);
+  });
+});
+
+describe('useHardwareConcurrency budget', () => {
+  const navigator = window.navigator;
+
+  afterEach(() => {
+    // @ts-ignore
+    if (!window.navigator) window.navigator = navigator;
+  });
+
+  test('should return `false` when required budget of 2', () => {
+    Object.defineProperty(window.navigator, 'hardwareConcurrency', {
+      value: 1,
+      configurable: true,
+      writable: true
+    });
+    const vm = mountHook(() => {
+      const hasEnoughConcurrency = useHardwareConcurrencyBudget(2);
+
+      return {
+        hasEnoughConcurrency
+      };
+    });
+
+    expect(vm.hasEnoughConcurrency).toBe(false);
+  });
+
+  test('should return `true` when required budget of 2 is satisfied', () => {
+    Object.defineProperty(window.navigator, 'hardwareConcurrency', {
+      value: 3,
+      configurable: true,
+      writable: true
+    });
+    const vm = mountHook(() => {
+      const hasEnoughConcurrency = useHardwareConcurrencyBudget(2);
+
+      return {
+        hasEnoughConcurrency
+      };
+    });
+
+    expect(vm.hasEnoughConcurrency).toBe(true);
   });
 });

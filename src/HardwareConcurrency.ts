@@ -1,4 +1,4 @@
-import { ref, readonly } from 'vue';
+import { ref, readonly, computed } from 'vue';
 import { runWithoutSSR } from './utils';
 
 export function useHardwareConcurrency(initialConcurrency?: number) {
@@ -22,4 +22,13 @@ export function useHardwareConcurrency(initialConcurrency?: number) {
     concurrency: readonly(concurrency),
     isSupported: readonly(isSupported)
   };
+}
+
+export function useHardwareConcurrencyBudget(expectedConcurrency: number) {
+  const hw = useHardwareConcurrency(expectedConcurrency);
+  const isWithinBudget = computed(() => {
+    return (hw.concurrency.value as number) >= expectedConcurrency;
+  });
+
+  return isWithinBudget;
 }
