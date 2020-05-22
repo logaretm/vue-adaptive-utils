@@ -1,8 +1,8 @@
-import { onUnmounted, ref, Ref, readonly } from 'vue';
+import { onUnmounted, ref, Ref, readonly, computed } from 'vue';
 import { runWithoutSSR } from './utils';
 
 type NetworkType = 'bluetooth' | 'cellular' | 'ethernet' | 'none' | 'wifi' | 'wimax' | 'other' | 'unknown';
-type NetworkEffectiveType = 'slow-2g' | '2g' | '3g' | '4g' | undefined;
+type NetworkEffectiveType = 'slow-2g' | '2g' | '3g' | '4g';
 
 interface UseNetworkStatusOptions {
   isOnline?: boolean;
@@ -19,7 +19,9 @@ export function useNetworkStatus(opts?: UseNetworkStatusOptions) {
   const offlineAt: Ref<number | undefined> = ref(undefined);
   const downlink: Ref<number | undefined> = ref(opts?.downlink ?? undefined);
   const downlinkMax: Ref<number | undefined> = ref(opts?.downlinkMax ?? undefined);
-  const effectiveConnectionType: Ref<NetworkEffectiveType> = ref(opts?.effectiveConnectionType ?? undefined);
+  const effectiveConnectionType: Ref<NetworkEffectiveType | undefined> = ref(
+    opts?.effectiveConnectionType ?? undefined
+  );
   const networkType: Ref<NetworkType> = ref(opts?.networkType ?? 'unknown');
   const isSupported = ref(false);
 
@@ -81,4 +83,52 @@ export function useNetworkStatus(opts?: UseNetworkStatusOptions) {
     networkType: readonly(networkType),
     isSupported: readonly(isSupported)
   };
+}
+
+type NetworkBudgetOptions = Pick<
+  UseNetworkStatusOptions,
+  'isOnline' | 'saveData' | 'downlink' | 'effectiveConnectionType'
+>;
+
+const effectiveConnTierList: Record<NetworkEffectiveType, number> = {
+  'slow-2g': 0,
+  '2g': 1,
+  '3g': 2,
+  '4g': 3
+};
+
+function getConnTier(connType: NetworkEffectiveType | undefined): number {
+  if (connType === undefined) {
+    return 4;
+  }
+
+  return effectiveConnTierList[connType] || 4;
+}
+
+export function useNetworkStatusBudget(opts: NetworkBudgetOptions) {
+  const status = useNetworkStatus(opts);
+  const isWithinBudget = computed(() => {
+    if (opts.isOnline && !status.isOnline.value) {
+      return false;
+    }
+
+    if ('saveData' in opts && status.saveData.value !== opts.saveData) {
+      return false;
+    }
+
+    if (opts.downlink && (status.downlink.value as number) < opts.downlink) {
+      return false;
+    }
+
+    if (
+      opts.effectiveConnectionType &&
+      getConnTier(status.effectiveConnectionType.value) < getConnTier(opts.effectiveConnectionType)
+    ) {
+      return false;
+    }
+
+    return true;
+  });
+
+  return isWithinBudget;
 }

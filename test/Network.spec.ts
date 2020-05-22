@@ -1,27 +1,27 @@
-import { useNetworkStatus } from '../src';
+import { useNetworkStatus, useNetworkStatusBudget } from '../src';
 import { mountHook } from './helpers';
 
+const nav = window.navigator;
+
+afterEach(() => {
+  // @ts-ignore
+  if (!window.navigator) window.navigator = nav;
+});
+
+const map: Record<string, Function> = {};
+
+const fakeEventTarget = {
+  addEventListener: jest.fn((event: string, callback: Function) => {
+    map[event] = callback;
+  }),
+  removeEventListener: jest.fn()
+};
+
+afterEach(() => {
+  Object.values(fakeEventTarget).forEach(listener => listener.mockClear());
+});
+
 describe('useNetworkStatus', () => {
-  const nav = window.navigator;
-
-  afterEach(() => {
-    // @ts-ignore
-    if (!window.navigator) window.navigator = nav;
-  });
-
-  const map: Record<string, Function> = {};
-
-  const fakeEventTarget = {
-    addEventListener: jest.fn((event: string, callback: Function) => {
-      map[event] = callback;
-    }),
-    removeEventListener: jest.fn()
-  };
-
-  afterEach(() => {
-    Object.values(fakeEventTarget).forEach(listener => listener.mockClear());
-  });
-
   const testEctStatusEventListenerMethod = (method: any) => {
     expect(method).toBeCalledTimes(1);
     expect(method.mock.calls[0][0]).toEqual('change');
@@ -173,4 +173,124 @@ describe('useNetworkStatus', () => {
   //   unmount();
   //   testEctStatusEventListenerMethod(fakeEventTarget.removeEventListener);
   // });
+});
+
+describe('useNetworkStatus Budget', () => {
+  test(`should return "true" when connected`, () => {
+    Object.defineProperty(window, 'navigator', {
+      value: {
+        onLine: true
+      },
+      configurable: true,
+      writable: true
+    });
+
+    const vm = mountHook(() => {
+      const isConnected = useNetworkStatusBudget({
+        isOnline: true
+      });
+
+      return {
+        isConnected
+      };
+    });
+
+    expect(vm.isConnected).toBe(true);
+  });
+
+  test(`should return "false" when not connected`, () => {
+    Object.defineProperty(window, 'navigator', {
+      value: {
+        onLine: false
+      },
+      configurable: true,
+      writable: true
+    });
+
+    const vm = mountHook(() => {
+      const isConnected = useNetworkStatusBudget({
+        isOnline: true
+      });
+
+      return {
+        isConnected
+      };
+    });
+
+    expect(vm.isConnected).toBe(false);
+  });
+
+  test(`should return "true" when data saver is disabled`, () => {
+    (global as any).navigator.connection = {
+      ...fakeEventTarget,
+      saveData: false
+    };
+    const vm = mountHook(() => {
+      const isSavingData = useNetworkStatusBudget({
+        saveData: false
+      });
+
+      return {
+        isSavingData
+      };
+    });
+
+    expect(vm.isSavingData).toBe(true);
+  });
+
+  test(`should return "false" when data saver is enabled`, () => {
+    (global as any).navigator.connection = {
+      ...fakeEventTarget,
+      saveData: true
+    };
+    const vm = mountHook(() => {
+      const isSavingData = useNetworkStatusBudget({
+        saveData: false
+      });
+
+      return {
+        isSavingData
+      };
+    });
+
+    expect(vm.isSavingData).toBe(false);
+  });
+
+  test(`should return "false" when effective network type is insufficient`, () => {
+    (global as any).navigator.connection = {
+      ...fakeEventTarget,
+      effectiveType: '2g'
+    };
+
+    const vm = mountHook(() => {
+      const is4G = useNetworkStatusBudget({
+        effectiveConnectionType: '4g'
+      });
+
+      return {
+        is4G
+      };
+    });
+
+    expect(vm.is4G).toBe(false);
+  });
+
+  test(`should return "true" when effective network type is sufficient`, () => {
+    (global as any).navigator.connection = {
+      ...fakeEventTarget,
+      effectiveType: '4g'
+    };
+
+    const vm = mountHook(() => {
+      const is3G = useNetworkStatusBudget({
+        effectiveConnectionType: '3g'
+      });
+
+      return {
+        is3G
+      };
+    });
+
+    expect(vm.is3G).toBe(true);
+  });
 });
