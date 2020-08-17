@@ -31,11 +31,11 @@ export function useMemoryStatus(opts?: UseMemoryStatusOptions) {
     }
   });
 
-  return {
-    deviceMemory: readonly(deviceMemory),
-    totalJSHeapSize: readonly(totalJSHeapSize),
-    usedJSHeapSize: readonly(usedJSHeapSize),
-    jsHeapSizeLimit: readonly(jsHeapSizeLimit),
-    isSupported: readonly(isSupported)
-  };
+  return readonly({
+    deviceMemory: deviceMemory,
+    totalJSHeapSize: totalJSHeapSize,
+    usedJSHeapSize: usedJSHeapSize,
+    jsHeapSizeLimit: jsHeapSizeLimit,
+    isSupported: isSupported
+  });
 }

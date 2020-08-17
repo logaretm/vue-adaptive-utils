@@ -71,14 +71,14 @@ export function useNetworkStatus(opts?: UseNetworkStatusOptions) {
     listen();
   });
 
-  return {
-    isOnline: readonly(isOnline),
-    saveData: readonly(saveData),
-    offlineAt: readonly(offlineAt),
-    downlink: readonly(downlink),
-    downlinkMax: readonly(downlinkMax),
-    effectiveConnectionType: readonly(effectiveConnectionType),
-    networkType: readonly(networkType),
-    isSupported: readonly(isSupported)
-  };
+  return readonly({
+    isOnline: isOnline,
+    saveData: saveData,
+    offlineAt: offlineAt,
+    downlink: downlink,
+    downlinkMax: downlinkMax,
+    effectiveConnectionType: effectiveConnectionType,
+    networkType: networkType,
+    isSupported: isSupported
+  });
 }

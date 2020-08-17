@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { mountHook } from './helpers';
 import { useBatteryStatus } from '../src';
 import flushP from 'flush-promises';
@@ -5,9 +6,9 @@ import flushP from 'flush-promises';
 describe('use Battery', () => {
   const navigator = window.navigator;
 
-  const map: Record<string, Function> = {};
+  const map: Record<string, (...args: any[]) => any> = {};
   const fakeEventTarget = {
-    addEventListener: jest.fn(function(this: any, event: string, callback: Function) {
+    addEventListener: jest.fn(function(this: any, event: string, callback: (e: any) => any) {
       map[event] = callback.bind(this);
     }),
     removeEventListener: jest.fn()

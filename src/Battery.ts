@@ -69,11 +69,11 @@ export function useBatteryStatus(opts?: UseBatteryOptions) {
     listen();
   });
 
-  return {
-    isCharging: readonly(isCharging),
-    chargingTime: readonly(chargingTime),
-    dischargingTime: readonly(dischargingTime),
-    level: readonly(level),
-    isSupported: readonly(isSupported)
-  };
+  return readonly({
+    isCharging: isCharging,
+    chargingTime: chargingTime,
+    dischargingTime: dischargingTime,
+    level: level,
+    isSupported: isSupported
+  });
 }

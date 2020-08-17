@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { mountHook } from './helpers';
 import { useHardwareConcurrency } from '../src';
 

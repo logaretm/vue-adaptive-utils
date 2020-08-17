@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { useNetworkStatus } from '../src';
 import { mountHook } from './helpers';
 
@@ -9,10 +10,10 @@ describe('useNetworkStatus', () => {
     if (!window.navigator) window.navigator = nav;
   });
 
-  const map: Record<string, Function> = {};
+  const map: Record<string, (...args: any[]) => any> = {};
 
   const fakeEventTarget = {
-    addEventListener: jest.fn((event: string, callback: Function) => {
+    addEventListener: jest.fn((event: string, callback: (e: any) => any) => {
       map[event] = callback;
     }),
     removeEventListener: jest.fn()
@@ -160,17 +161,4 @@ describe('useNetworkStatus', () => {
 
     expect(vm.saveData).toEqual((navigator as any).connection.saveData);
   });
-
-  // test('should remove the listener for the navigator.connection change event on unmount', () => {
-  //   (global as any).navigator.connection = {
-  //     ...fakeEventTarget,
-  //     effectiveConnectionType: '2g'
-  //   };
-
-  //   const vm = mountHook(() => useNetworkStatus());
-
-  //   testEctStatusEventListenerMethod(fakeEventTarget.addEventListener);
-  //   unmount();
-  //   testEctStatusEventListenerMethod(fakeEventTarget.removeEventListener);
-  // });
 });

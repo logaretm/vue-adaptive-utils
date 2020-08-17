@@ -18,8 +18,8 @@ export function useHardwareConcurrency(initialConcurrency?: number) {
     isSupported.value = supported;
   });
 
-  return {
-    concurrency: readonly(concurrency),
-    isSupported: readonly(isSupported)
-  };
+  return readonly({
+    concurrency: concurrency,
+    isSupported: isSupported
+  });
 }
