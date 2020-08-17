@@ -1,11 +1,12 @@
 {
   "name": "vue-adaptive-utils",
   "author": "Abdelrahman Awad",
-  "module": "dist/vue-adaptive-utils.esm.js",
   "description": "Deliver empathetic experiences to your users by adapting to their capabilities",
-  "version": "0.1.4",
+  "version": "0.2.0",
   "license": "MIT",
-  "main": "dist/index.js",
+  "main": "dist/vue-adaptive-utils.js",
+  "module": "dist/vue-adaptive-utils.esm.js",
+  "unpkg": "dist/vue-adaptive-utils.js",
   "typings": "dist/index.d.ts",
   "files": [
     "dist"
