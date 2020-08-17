@@ -18,7 +18,8 @@
     "format": "prettier \"./**/*.ts\" --write",
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs",
-    "docs:deploy": "./scripts/deploy.sh"
+    "docs:deploy": "./scripts/deploy.sh",
+    "prepublishOnly": "npm run build"
   },
   "peerDependencies": {
     "vue": "^3.0.0-beta.1"
