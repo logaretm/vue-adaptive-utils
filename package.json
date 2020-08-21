@@ -2,7 +2,7 @@
   "name": "vue-adaptive-utils",
   "author": "Abdelrahman Awad",
   "description": "Deliver empathetic experiences to your users by adapting to their capabilities",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "license": "MIT",
   "main": "dist/vue-adaptive-utils.js",
   "module": "dist/vue-adaptive-utils.esm.js",
