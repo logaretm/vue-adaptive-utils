@@ -1,4 +1,4 @@
-import { ref, onUnmounted, readonly } from 'vue';
+import { ref, onUnmounted } from 'vue';
 import { runWithoutSSR } from './utils';
 
 interface BatteryManager extends EventTarget {
@@ -69,11 +69,11 @@ export function useBatteryStatus(opts?: UseBatteryOptions) {
     listen();
   });
 
-  return readonly({
+  return {
     isCharging: isCharging,
     chargingTime: chargingTime,
     dischargingTime: dischargingTime,
     level: level,
     isSupported: isSupported
-  });
+  };
 }

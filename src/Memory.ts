@@ -1,4 +1,4 @@
-import { ref, readonly, Ref } from 'vue';
+import { ref, Ref } from 'vue';
 import { runWithoutSSR } from './utils';
 
 interface UseMemoryStatusOptions {
@@ -31,11 +31,11 @@ export function useMemoryStatus(opts?: UseMemoryStatusOptions) {
     }
   });
 
-  return readonly({
+  return {
     deviceMemory: deviceMemory,
     totalJSHeapSize: totalJSHeapSize,
     usedJSHeapSize: usedJSHeapSize,
     jsHeapSizeLimit: jsHeapSizeLimit,
     isSupported: isSupported
-  });
+  };
 }

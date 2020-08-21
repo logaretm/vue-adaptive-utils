@@ -1,4 +1,4 @@
-import { onUnmounted, ref, Ref, readonly } from 'vue';
+import { onUnmounted, ref, Ref } from 'vue';
 import { runWithoutSSR } from './utils';
 
 type NetworkType = 'bluetooth' | 'cellular' | 'ethernet' | 'none' | 'wifi' | 'wimax' | 'other' | 'unknown';
@@ -71,7 +71,7 @@ export function useNetworkStatus(opts?: UseNetworkStatusOptions) {
     listen();
   });
 
-  return readonly({
+  return {
     isOnline: isOnline,
     saveData: saveData,
     offlineAt: offlineAt,
@@ -80,5 +80,5 @@ export function useNetworkStatus(opts?: UseNetworkStatusOptions) {
     effectiveConnectionType: effectiveConnectionType,
     networkType: networkType,
     isSupported: isSupported
-  });
+  };
 }

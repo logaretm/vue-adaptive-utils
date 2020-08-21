@@ -1,4 +1,4 @@
-import { ref, readonly } from 'vue';
+import { ref } from 'vue';
 import { runWithoutSSR } from './utils';
 
 export function useHardwareConcurrency(initialConcurrency?: number) {
@@ -18,8 +18,8 @@ export function useHardwareConcurrency(initialConcurrency?: number) {
     isSupported.value = supported;
   });
 
-  return readonly({
+  return {
     concurrency: concurrency,
     isSupported: isSupported
-  });
+  };
 }
